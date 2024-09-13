@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes and Assignments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">College Portal</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#notes">Notes</a></li>
+                <li><a href="#assignments">Assignments</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner Section -->
+    <section id="home" class="banner">
+        <div class="banner-content">
+            <h1>Welcome to the College Notes Portal</h1>
+            <p>Your one-stop destination for notes, assignments, and resources</p>
+        </div>
+        <!-- <img src="" alt="Students and College" class="banner-img"> -->
+    </section>
+
+    <!-- Notes Section -->
+    <section id="notes" class="notes-section">
+        <h2>Available Notes</h2>
+        <div id="notesContainer" class="notes-container">
+            <!-- Notes will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Assignments Section -->
+    <section id="assignments" class="assignments-section">
+        <h2>Available Assignments</h2>
+        <div id="assignmentsContainer" class="assignments-container">
+            <!-- Assignments will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>If you have any questions, feel free to reach out to us at: <a href="mailto:support@collegeportal.com">support@collegeportal.com</a></p>
+    </section>
+
+    <footer>
+        <p>© 2024 College Portal. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@8.0.0"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+<style>
+/* ========================== */
+/* RESPONSIVE STYLES */
+/* ========================== */
+
+/* Mobile Styles (320px to 480px) */
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .nav-links li {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .nav-links li a {
+        font-size: 16px;
+        padding: 5px 0;
+    }
+
+    .banner {
+        padding: 30px 10px;
+    }
+
+    .banner-content h2 {
+        font-size: 24px;
+    }
+
+    .banner-content p {
+        font-size: 16px;
+    }
+
+    section {
+        padding: 20px 10px;
+    }
+
+    .note-card, .assignment-card {
+        width: 100%;
+        padding: 15px;
+    }
+
+    footer {
+        padding: 15px;
+    }
+}
+
+/* Tablet Styles (481px to 720px) */
+@media (min-width: 481px) and (max-width: 720px) {
+    .navbar {
+        padding: 10px 20px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .nav-links li a {
+        font-size: 16px;
+    }
+
+    .banner {
+        padding: 30px 20px;
+    }
+
+    .banner-content h2 {
+        font-size: 28px;
+    }
+
+    .banner-content p {
+        font-size: 18px;
+    }
+
+    section {
+        padding: 30px 20px;
+    }
+
+    .note-card, .assignment-card {
+        width: 48%;
+        padding: 20px;
+    }
+
+    .contact-section {
+        padding: 30px;
+    }
+
+    footer {
+        padding: 20px;
+    }
+}
+
+/* Laptop and Desktop Styles (Above 720px) */
+@media (min-width: 721px) {
+    .navbar {
+        padding: 15px 30px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .nav-links li a {
+        font-size: 18px;
+    }
+
+    .banner {
+        padding: 50px 30px;
+    }
+
+    .banner-content h2 {
+        font-size: 36px;
+    }
+
+    .banner-content p {
+        font-size: 20px;
+    }
+
+    section {
+        padding: 40px 30px;
+    }
+
+    .note-card, .assignment-card {
+        width: 30%;
+        padding: 20px;
+    }
+
+    .contact-section {
+        padding: 40px;
+    }
+
+    footer {
+        padding: 20px;
+    }
+}
+
+    /* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: darkorange;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #333;
+}
+
+/* Banner Section */
+.banner {
+    margin-top: 60px;
+    background-color: #333;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 1;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* Sections */
+section {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+h2 {
+    color: darkorange;
+    margin-bottom: 20px;
+}
+
+/* Notes and Assignments Container */
+.notes-container, .assignments-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.note-card, .assignment-card {
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.note-card h3, .assignment-card h3 {
+    color: darkorange;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.note-card p, .assignment-card p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.note-card a, .assignment-card a {
+    color: white;
+    background-color: darkorange;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.note-card a:hover, .assignment-card a:hover {
+    background-color: #e67e22;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 40px;
+}
+
+.contact-section a {
+    color: darkorange;
+    text-decoration: none;
+}
+
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+</style>
+<!-- <style>
+
+    /* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #333;
+}
+
+.navbar .logo h1 {
+    color: darkorange;
+    font-size: 24px;
+}
+
+.nav-links {
+    list-style: none;
+}
+
+.nav-links li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links a:hover {
+    color: darkorange;
+}
+
+/* Hero section */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background-color: gray;
+}
+
+.hero-content {
+    max-width: 500px;
+}
+
+.hero-content h2 {
+    color: darkorange;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.hero-image {
+    width: 400px;
+    height: auto;
+}
+
+.btn {
+    background-color: darkorange;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #e67e22;
+}
+
+/* Notes Section */
+.notes-section {
+    padding: 50px;
+    background-color: white;
+}
+
+.notes-section h2 {
+    color: darkorange;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.note-card {
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.note-card h3 {
+    color: darkorange;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.note-card p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.note-card a {
+    color: white;
+    background-color: darkorange;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.note-card a:hover {
+    background-color: #e67e22;
+}
+
+/* Footer Section */
+.footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    margin-top: 50px;
+}
+
+/* ========================== */
+/* RESPONSIVE STYLES */
+/* ========================== */
+
+/* Mobile Styles (320px to 480px) */
+@media (max-width: 480px) {
+    .navbar .logo h1 {
+        font-size: 20px;
+    }
+
+    .nav-links li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-content h2 {
+        font-size: 24px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .hero-image {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .notes-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .note-card {
+        width: 90%;
+    }
+}
+
+/* Tablet Styles (481px to 720px) */
+@media (min-width: 481px) and (max-width: 720px) {
+    .navbar .logo h1 {
+        font-size: 22px;
+    }
+
+    .nav-links li {
+        display: inline;
+        margin: 5px 10px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .hero-section {
+        padding: 30px;
+    }
+
+    .hero-content h2 {
+        font-size: 30px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .hero-image {
+        width: 300px;
+    }
+
+    .notes-container {
+        flex-wrap: wrap;
+    }
+
+    .note-card {
+        width: 200px;
+    }
+}
+
+/* Laptop and Desktop Styles (Above 720px) */
+@media (min-width: 721px) {
+    .navbar .logo h1 {
+        font-size: 24px;
+    }
+
+    .hero-content h2 {
+        font-size: 36px;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+    .hero-image {
+        width: 400px;
+    }
+
+    .notes-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .note-card {
+        width: 250px;
+    }
+}
+
+</style> -->
+<script>
+    // Initialize the Appwrite client
+const appwrite = new Appwrite.Client();
+
+appwrite
+    .setEndpoint('https://[APPWRITE_ENDPOINT]') // Replace with your Appwrite API endpoint
+    .setProject('[PROJECT_ID]'); // Replace with your Project ID
+
+const database = new Appwrite.Databases(appwrite);
+const storage = new Appwrite.Storage(appwrite);
+
+// Fetch notes and assignments and display them
+async function fetchNotesAndAssignments() {
+    const notesContainer = document.getElementById('notesContainer');
+    const assignmentsContainer = document.getElementById('assignmentsContainer');
+
+    try {
+        // Fetch notes from the database
+        const notesResponse = await database.listDocuments('[YOUR_DATABASE_ID]', '[YOUR_COLLECTION_ID_NOTES]');
+        notesResponse.documents.forEach(async (document) => {
+            const noteCard = createCard(document.title, document.description, document.fileId);
+            notesContainer.appendChild(noteCard);
+        });
+
+        // Fetch assignments from the database
+        const assignmentsResponse = await database.listDocuments('[YOUR_DATABASE_ID]', '[YOUR_COLLECTION_ID_ASSIGNMENTS]');
+        assignmentsResponse.documents.forEach(async (document) => {
+            const assignmentCard = createCard(document.title, document.description, document.fileId);
+            assignmentsContainer.appendChild(assignmentCard);
+        });
+
+    } catch (error) {
+        console.error('Error fetching data:', error.message);
+    }
+}
+
+function createCard(title, description, fileId) {
+    const card = document.createElement('div');
+    card.classList.add('note-card');
+
+    const cardTitle = document.createElement('h3');
+    cardTitle.textContent = title;
+
+    const cardDescription = document.createElement('p');
+    cardDescription.textContent = description;
+
+    const downloadLink = document.createElement('a');
+    downloadLink.href = `https://[APPWRITE_ENDPOINT]/v1/storage/files/${fileId}/view?project=[PROJECT_ID]`;
+    downloadLink.textContent = 'Download';
+
+    card.appendChild(cardTitle);
+    card.appendChild(cardDescription);
+    card.appendChild(downloadLink);
+
+    return card;
+}
+
+// Fetch and display notes and assignments when the page loads
+window.addEventListener('load', fetchNotesAndAssignments);
+
+</script>
